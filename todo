@@ -1,8 +1,8 @@
 Goals
 ☐ Create a working console application of Tic Tac Toe
     ✔ Visualize the board @started(26-02-10 12:47) @done(26-02-10 13:01) @lasted(14m39s)
-    ☐ Ability to update the board
-    ☐ Implement game logic for games won, lost, and drawn.
+    ✔ Ability to update the board @started(26-02-10 14:08) @done(26-02-10 14:23) @lasted(15m26s)
+    ✔ Implement game logic for games won and drawn. @started(26-02-11 15:07) @done(26-02-11 15:48) @lasted(41m10s)
 ☐ Manipulate DOM to match console game
     ☐ Update screen to match game state
     ☐ Update visuals for clarity
