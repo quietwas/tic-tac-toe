@@ -17,7 +17,10 @@ function Gameboard() {
         const currentCellValue = board[row][col].getValue()
         if(currentCellValue === 0){
             board[row][col].addToken(player)
+            return true
         }
+
+        return false
     }
 
     const printBoard = () => {
@@ -102,11 +105,11 @@ function GameController() {
     }
 
     const playRound = (row, col) => {
-        if (board.getBoard()[row][col].getValue() !== 0) return
+        const success = board.placeToken(row, col, getActivePlayer().token)
+
+        if (!success) return
 
         console.log(`Placing ${getActivePlayer().name}'s token into row ${row}, column ${col}...`)
-
-        board.placeToken(row, col, getActivePlayer().token)
 
         if (checkGameState()){
             return "won"
@@ -159,10 +162,10 @@ function ScreenController() {
     }
 
     function clickHandler(e) {
-        const selectedRow = e.target.dataset.row
-        const selectedCol = e.target.dataset.column
+        if (!e.target.classList.contains("cell")) return
 
-        if(!selectedRow || !selectedCol) return
+        const selectedRow = Number(e.target.dataset.row)
+        const selectedCol = Number(e.target.dataset.column)
 
         const result = game.playRound(selectedRow, selectedCol)
 
