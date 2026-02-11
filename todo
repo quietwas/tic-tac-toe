@@ -4,7 +4,7 @@ Goals
     ✔ Ability to update the board @started(26-02-10 14:08) @done(26-02-10 14:23) @lasted(15m26s)
     ✔ Implement game logic for games won and drawn. @started(26-02-11 15:07) @done(26-02-11 15:48) @lasted(41m10s)
 ☐ Manipulate DOM to match console game
-    ☐ Update screen to match game state
+    ✔ Update screen to match game state @started(26-02-11 15:52) @done(26-02-11 16:03) @lasted(11m16s)
     ☐ Update visuals for clarity
 ☐ Final Touches
     ☐ Start screen to allow user to enter player names

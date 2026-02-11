@@ -76,7 +76,7 @@ function GameController() {
                 }
             if (gameState[0][i].getValue() === gameState[1][i].getValue() 
                 && gameState[0][i].getValue() === gameState[2][i].getValue() 
-                && gameState[i][0].getValue() !== 0){
+                && gameState[0][i].getValue() !== 0){
                     return true
                 }
         }
@@ -109,15 +109,14 @@ function GameController() {
         board.placeToken(row, col, getActivePlayer().token)
 
         if (checkGameState()){
-            return console.log(`${getActivePlayer().name} won!`)
+            return "won"
         }
 
         if(checkAvailableTiles()){
             switchPlayerTurn()
             printNewRound()
         } else{
-            board.printBoard()
-            return console.log("It's a draw")
+            return "draw"
         }
     }
 
@@ -132,13 +131,57 @@ function GameController() {
     }
 }
 
-const game = GameController()
-game.playRound(0, 0)
-game.playRound(1, 1)
-game.playRound(0, 1)
-game.playRound(0, 2)
-game.playRound(2, 0)
-game.playRound(1, 0)
-game.playRound(1, 2)
-game.playRound(2, 1)
-game.playRound(2, 2)
+function ScreenController() {
+    const game = GameController()
+    const playerTurnDiv = document.querySelector('.turn')
+    const boardDiv = document.querySelector('.board')
+
+    const updateScreen = () => {
+        boardDiv.textContent = "";
+
+        const board = game.getBoard()
+        const activePlayer = game.getActivePlayer()
+
+        playerTurnDiv.textContent = `${activePlayer.name}'s turn...`
+
+        board.forEach((row, rowIndex) => {
+            row.forEach((cell, colIndex) => {
+                const cellButton = document.createElement("button")
+                cellButton.classList.add("cell")
+                cellButton.dataset.row = rowIndex
+                cellButton.dataset.column = colIndex
+                if(cell.getValue() != 0){
+                    cellButton.textContent = cell.getValue()
+                }
+                boardDiv.append(cellButton)
+            })
+        })
+    }
+
+    function clickHandler(e) {
+        const selectedRow = e.target.dataset.row
+        const selectedCol = e.target.dataset.column
+
+        if(!selectedRow || !selectedCol) return
+
+        const result = game.playRound(selectedRow, selectedCol)
+
+        if(result === "won"){
+            updateScreen()
+            playerTurnDiv.textContent = `${game.getActivePlayer().name} won!`
+            boardDiv.removeEventListener("click", clickHandler)
+        } else if(result === "draw"){
+            updateScreen()
+            playerTurnDiv.textContent = "It's a draw."
+            boardDiv.removeEventListener("click", clickHandler)
+        } else {
+            updateScreen()
+        }
+    }
+
+    boardDiv.addEventListener("click", clickHandler)
+
+    updateScreen()
+}
+
+ScreenController()
