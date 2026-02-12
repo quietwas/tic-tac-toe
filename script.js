@@ -135,9 +135,22 @@ function GameController() {
 }
 
 function ScreenController() {
-    const game = GameController()
+    let game = GameController()
+    let gameOver = false
+    const startScreen = document.querySelector('.start-screen')
+    const startButton = document.querySelector('.start')
     const playerTurnDiv = document.querySelector('.turn')
     const boardDiv = document.querySelector('.board')
+    const resetButton = document.querySelector('.reset')
+
+    function startGame() {
+        startScreen.classList.add("hidden")
+        playerTurnDiv.classList.remove("hidden")
+        boardDiv.classList.remove("hidden")
+        resetButton.classList.remove("hidden")
+        updateScreen()
+    }
+    startButton.addEventListener("click", startGame)
 
     const updateScreen = () => {
         boardDiv.textContent = "";
@@ -145,7 +158,7 @@ function ScreenController() {
         const board = game.getBoard()
         const activePlayer = game.getActivePlayer()
 
-        playerTurnDiv.textContent = `${activePlayer.name}'s turn...`
+        if(!gameOver) playerTurnDiv.textContent = `${activePlayer.name}'s turn...`
 
         board.forEach((row, rowIndex) => {
             row.forEach((cell, colIndex) => {
@@ -162,7 +175,7 @@ function ScreenController() {
     }
 
     function clickHandler(e) {
-        if (!e.target.classList.contains("cell")) return
+        if (!e.target.classList.contains("cell") || gameOver) return
 
         const selectedRow = Number(e.target.dataset.row)
         const selectedCol = Number(e.target.dataset.column)
@@ -172,19 +185,23 @@ function ScreenController() {
         if(result === "won"){
             updateScreen()
             playerTurnDiv.textContent = `${game.getActivePlayer().name} won!`
-            boardDiv.removeEventListener("click", clickHandler)
+            gameOver = true
         } else if(result === "draw"){
             updateScreen()
             playerTurnDiv.textContent = "It's a draw."
-            boardDiv.removeEventListener("click", clickHandler)
+            gameOver = true
         } else {
             updateScreen()
         }
     }
-
     boardDiv.addEventListener("click", clickHandler)
 
-    updateScreen()
+    function resetGame() {
+        game = GameController()
+        gameOver = false
+        updateScreen()
+    }
+    resetButton.addEventListener("click", resetGame)
 }
 
 ScreenController()
