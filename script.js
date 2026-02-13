@@ -50,10 +50,12 @@ function Cell() {
     }
 }
 
-function GameController() {
+function GameController(playerOneName, playerTwoName) {
     const board = Gameboard()
     
-    const players = [{name: "Player One", token: "X"}, {name: "Player Two", token: "O"}]
+    const players = [{name: playerOneName || "Player One", token: "X"}, {name: playerTwoName || "Player Two", token: "O"}]
+
+    const getPlayers = () => players
 
     let activePlayer = players[0]
 
@@ -130,24 +132,49 @@ function GameController() {
         getActivePlayer,
         checkGameState,
         checkAvailableTiles,
-        getBoard: board.getBoard
+        getBoard: board.getBoard,
+        getPlayers
     }
 }
 
 function ScreenController() {
     let game = GameController()
     let gameOver = false
+    let playerOneScore = 0
+    let playerTwoScore = 0
     const startScreen = document.querySelector('.start-screen')
     const startButton = document.querySelector('.start')
     const playerTurnDiv = document.querySelector('.turn')
     const boardDiv = document.querySelector('.board')
     const resetButton = document.querySelector('.reset')
+    const dialog = document.querySelector('dialog')
+    const addPlayerNameButton = document.querySelector('.player-names')
+    const form = document.querySelector('form')
+    const scoreboard = document.querySelector('.scoreboard')
+
+    addPlayerNameButton.addEventListener("click", () => {
+        dialog.showModal()
+    })
+
+    let playerOneName
+    let playerTwoName
+
+    function getPlayerNames(e) {
+        e.preventDefault()
+        playerOneName = document.querySelector("#player1").value
+        playerTwoName = document.querySelector("#player2").value
+
+        game = GameController(playerOneName, playerTwoName)
+        dialog.close()
+    }
+    form.addEventListener("submit", getPlayerNames)
 
     function startGame() {
         startScreen.classList.add("hidden")
         playerTurnDiv.classList.remove("hidden")
         boardDiv.classList.remove("hidden")
         resetButton.classList.remove("hidden")
+        scoreboard.classList.remove("hidden")
         updateScreen()
     }
     startButton.addEventListener("click", startGame)
@@ -159,6 +186,11 @@ function ScreenController() {
         const activePlayer = game.getActivePlayer()
 
         if(!gameOver) playerTurnDiv.textContent = `${activePlayer.name}'s turn...`
+        
+        const p1Score = document.querySelector('.p1-score')
+        p1Score.textContent = `${game.getPlayers()[0].name}: ${playerOneScore}`
+        const p2score = document.querySelector('.p2-score')
+        p2score.textContent = `${game.getPlayers()[1].name}: ${playerTwoScore}`
 
         board.forEach((row, rowIndex) => {
             row.forEach((cell, colIndex) => {
@@ -183,6 +215,14 @@ function ScreenController() {
         const result = game.playRound(selectedRow, selectedCol)
 
         if(result === "won"){
+            switch (game.getActivePlayer().token) {
+                case "X":
+                    playerOneScore++
+                    break
+                case "O":
+                    playerTwoScore++
+                    break
+            }
             updateScreen()
             playerTurnDiv.textContent = `${game.getActivePlayer().name} won!`
             gameOver = true
@@ -197,7 +237,7 @@ function ScreenController() {
     boardDiv.addEventListener("click", clickHandler)
 
     function resetGame() {
-        game = GameController()
+        game = GameController(playerOneName, playerTwoName)
         gameOver = false
         updateScreen()
     }
