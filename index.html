@@ -10,14 +10,10 @@
 <body>
     <dialog>
         <form method="dialog">
-            <div>
-                <label for="player1">Player 1:</label>
-                <input type="text" name="player1" id="player1">
-            </div>
-            <div>
-                <label for="player2">Player 2:</label>
-                <input type="text" name="player2" id="player2">
-            </div>
+            <label for="player1">Player 1</label>
+            <input type="text" name="player1" id="player1">
+            <label for="player2">Player 2</label>
+            <input type="text" name="player2" id="player2">
             <button type="submit">Submit</button>
         </form>
     </dialog>
@@ -27,13 +23,13 @@
             <button class="player-names">Input Names</button>
             <button class="start">Start</button>
         </div>
-        <h1 class="turn hidden"></h1>
-        <div class="board hidden"></div>
-        <button class="reset hidden">Reset</button>
         <div class="scoreboard hidden">
+            <h1 class="turn"></h1>
             <div class="p1-score"></div>
             <div class="p2-score"></div>
         </div>
+        <div class="board hidden"></div>
+        <button class="reset hidden">Reset</button>
     </div>
 </body>
 </html>

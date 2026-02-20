@@ -1,13 +1,17 @@
+* {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: #1e1e2e;
+  color: #cdd6f4;
+}
+
 .board {
   display: grid;
   height: 500px;
   width: 500px;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  border: 1px solid black;
   gap: 2px;
-  padding: 2px;
-  background-color: yellow;
+  background-color: #cba6f7;
 }
 
 .cell {
@@ -16,11 +20,64 @@
   align-items: center;
   text-align: center;
   font-size: 2rem;
-  border: 1px solid grey;
-  background: lightyellow;
+  border: 1px solid #1e1e2e;
   cursor: pointer;
 }
 
 .hidden {
   display: none;
+}
+
+.start-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.start-screen button, .reset, form button {
+  padding: 10px;
+  border-radius: 10px;
+  border-style: none;
+  background-color: #b4befe;
+  font-weight: bold;
+  color: #1e1e2e;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.scoreboard {
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+}
+
+input {
+  border-color: #b4befe;
+}
+
+::backdrop {
+  background-image: linear-gradient(
+    45deg,
+    #f5e0dc,
+    #f2cdcd,
+    #f5c2e7,
+    #cba6f7,
+    #f38ba8
+  );
+  opacity: 0.75;
 }

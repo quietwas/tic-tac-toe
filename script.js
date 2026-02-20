@@ -171,6 +171,7 @@ function ScreenController() {
 
     function startGame() {
         startScreen.classList.add("hidden")
+        startScreen.classList.remove("start-screen")
         playerTurnDiv.classList.remove("hidden")
         boardDiv.classList.remove("hidden")
         resetButton.classList.remove("hidden")
